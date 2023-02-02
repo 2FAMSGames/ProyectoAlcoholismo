@@ -1,16 +1,20 @@
 name: Build project
-on: [push, pull_request]
+
+on:
+  pull_request:
+    branches:
+      - main
 
 jobs:
   butlerPush:
     name: Butler Push
     runs-on: ubuntu-latest
-    
+
     steps:
-    - uses: manleydev/butler-publish-itchio-action@master
-      env:
-        BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
-        CHANNEL: android
-        ITCH_GAME: ${{ secrets.ITCHIO_GAMEID }}
-        ITCH_USER: ${{ secrets.ITCHIO_USERNAME }}
-        PACKAGE: build/windows
+      - uses: manleydev/butler-publish-itchio-action@master
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+          CHANNEL: android
+          ITCH_GAME: ${{ secrets.ITCHIO_GAMEID }}
+          ITCH_USER: ${{ secrets.ITCHIO_USERNAME }}
+          PACKAGE: build/windows
