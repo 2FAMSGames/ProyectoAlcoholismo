@@ -37,8 +37,8 @@ jobs:
           targetPlatform: ${{ matrix.targetPlatform }}
       - uses: actions/upload-artifact@v2
         with:
-          name: Build${{ matrix.targetPlatform }}
-          path: build/${{ matrix.targetPlatform }}
+          name: Build #name: Build-${{ matrix.targetPlatform }}
+          path: build #path: build/${{ matrix.targetPlatform }}
   uploadToItchio:
     name: Butler Push
     runs-on: ubuntu-latest
@@ -51,4 +51,4 @@ jobs:
           CHANNEL: android
           ITCH_GAME: ${{ secrets.ITCHIO_GAMEID }}
           ITCH_USER: ${{ secrets.ITCHIO_USERNAME }}
-          PACKAGE: BuildAndroid.zip
+          PACKAGE: build/Android
