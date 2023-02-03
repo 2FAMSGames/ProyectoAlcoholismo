@@ -45,10 +45,17 @@ jobs:
     needs: build
 
     steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          lfs: true
+      - uses: actions/download-artifact@v2
+        with:
+          name: Build-Android
       - uses: manleydev/butler-publish-itchio-action@master
         env:
           BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
           CHANNEL: android
           ITCH_GAME: ${{ secrets.ITCHIO_GAMEID }}
           ITCH_USER: ${{ secrets.ITCHIO_USERNAME }}
-          PACKAGE: build/Build-Android
+          PACKAGE: Build-Android
