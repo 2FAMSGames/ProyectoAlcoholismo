@@ -45,7 +45,7 @@ jobs:
           CHANNEL: android
           ITCH_GAME: ${{ secrets.ITCHIO_GAMEID }}
           ITCH_USER: ${{ secrets.ITCHIO_USERNAME }}
-          PACKAGE: build/${{ matrix.targetPlatform }}
+          PACKAGE: build/${{ matrix.targetPlatform }}/Android.apk
 #  uploadToItchio:
 #    name: Butler Push
 #    runs-on: ubuntu-latest
