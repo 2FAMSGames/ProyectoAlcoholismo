@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Netcode.Transports.PhotonRealtime;
 
 public class MenusController : MonoBehaviour
 {
+    [Header("Menus")]
     [SerializeField]
     private GameObject mainMenu;
     [SerializeField]
@@ -12,6 +14,18 @@ public class MenusController : MonoBehaviour
     private GameObject roomJoinMenu;
     [SerializeField]
     private GameObject settingsMenu;
+    [SerializeField]
+    private GameObject roomMenu;
+
+    [Header("Otros Gameobjects")]
+    [SerializeField]
+    private GameObject networkManager;
+    private PhotonRealtimeTransport photonManager;
+
+    void Start()
+    {
+        photonManager = networkManager.GetComponent<PhotonRealtimeTransport>();
+    }
 
     void OnEnable()
     {
@@ -24,6 +38,7 @@ public class MenusController : MonoBehaviour
         roomCreateMenu.SetActive(false);
         roomJoinMenu.SetActive(false);
         settingsMenu.SetActive(false);
+        roomMenu.SetActive(false);
     }
 
     public void GoToRoomCreateMenu()
@@ -32,6 +47,7 @@ public class MenusController : MonoBehaviour
         roomCreateMenu.SetActive(true);
         roomJoinMenu.SetActive(false);
         settingsMenu.SetActive(false);
+        roomMenu.SetActive(false);
     }
 
     public void GoToRoomJoinMenu()
@@ -40,6 +56,7 @@ public class MenusController : MonoBehaviour
         roomCreateMenu.SetActive(false);
         roomJoinMenu.SetActive(true);
         settingsMenu.SetActive(false);
+        roomMenu.SetActive(false);
     }
 
     public void GoToSettingsMenu()
@@ -48,5 +65,27 @@ public class MenusController : MonoBehaviour
         roomCreateMenu.SetActive(false);
         roomJoinMenu.SetActive(false);
         settingsMenu.SetActive(true);
+        roomMenu.SetActive(false);
     }
+
+    public void GoToRoomMenu()
+    {
+        mainMenu.SetActive(false);
+        roomCreateMenu.SetActive(false);
+        roomJoinMenu.SetActive(false);
+        settingsMenu.SetActive(false);
+        roomMenu.SetActive(true);
+    }
+
+    public void ChangeNetworkRoomName(string newName)
+    {
+        photonManager.RoomName = newName;
+    }
+
+    public void ChangeNetworkPlayerName(string newName)
+    {
+        //Todo: Settear donde corresponda el player name para que sea visible por otros jugadores
+    }
+
+    
 }

@@ -19,10 +19,8 @@
 }
 
 .menu__input-field > Label {
-    display: none;
+    align-items: stretch;
 }
 
 .menu__input-field > #unity-text-input {
-    align-items: auto;
-    width: 100%;
 }

@@ -10,6 +10,8 @@ public class RoomCreateMenuController : MonoBehaviour {
     private UIDocument doc;
     private Button goBackButton;
     private Button createRoomButton;
+
+    private TextField playerNameField;
     private TextField roomNameField;
 
     void OnEnable()
@@ -22,9 +24,13 @@ public class RoomCreateMenuController : MonoBehaviour {
         goBackButton.clicked += GoBackButtonOnClicked;
 
         createRoomButton = doc.rootVisualElement.Q<Button>("CreateButton");
+        createRoomButton.clicked += CreateRoomButtonOnClicked;
 
         roomNameField = doc.rootVisualElement.Q<TextField>("RoomName");
         roomNameField.RegisterValueChangedCallback(OnEnterRoomName);
+
+        playerNameField = doc.rootVisualElement.Q<TextField>("PlayerName");
+        playerNameField.RegisterValueChangedCallback(OnEnterRoomName);
     }
 
     private void GoBackButtonOnClicked()
@@ -33,10 +39,20 @@ public class RoomCreateMenuController : MonoBehaviour {
         menusController.GoToMainMenu();
     }
 
+    private void CreateRoomButtonOnClicked()
+    {
+        Debug.Log("Create room button clicked");
+    }
+
     private void OnEnterRoomName(ChangeEvent<string> changeEvent)
     {
-        Debug.Log("Key pressed");
-        Debug.Log("New value name: " + changeEvent.newValue);
+        Debug.Log("Room: Key pressed");
+        menusController.ChangeNetworkRoomName(changeEvent.newValue);
+    }
 
+    private void OnEnterPlayerName(ChangeEvent<string> changeEvent)
+    {
+        Debug.Log("Player: Key pressed");
+        menusController.ChangeNetworkPlayerName(changeEvent.newValue);
     }
 }
