@@ -486,6 +486,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menusObject: {fileID: 2116078372}
+  listEntryTemplate: {fileID: 9197481963319205126, guid: 3c17e6581b12df146847003b5f26f2bf, type: 3}
 --- !u!114 &1371560195
 MonoBehaviour:
   m_ObjectHideFlags: 0

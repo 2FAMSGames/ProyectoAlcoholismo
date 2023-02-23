@@ -42,6 +42,7 @@ public class RoomJoinMenuController : MonoBehaviour {
     private void JoinRoomButtonOnClicked()
     {
         Debug.Log("Join room button clicked");
+        menusController.GoToRoomMenu();
     }
 
     private void OnEnterRoomName(ChangeEvent<string> changeEvent)

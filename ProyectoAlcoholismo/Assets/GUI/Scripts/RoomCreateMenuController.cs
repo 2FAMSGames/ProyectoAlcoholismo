@@ -42,6 +42,7 @@ public class RoomCreateMenuController : MonoBehaviour {
     private void CreateRoomButtonOnClicked()
     {
         Debug.Log("Create room button clicked");
+        menusController.GoToRoomMenu();
     }
 
     private void OnEnterRoomName(ChangeEvent<string> changeEvent)
