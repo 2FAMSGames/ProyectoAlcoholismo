@@ -8,12 +8,15 @@ public class AcelerometroManager : MonoBehaviour
 
     private Rigidbody rb;
 
-    private float speed = 20;
+    private float Speed =20f;
+    private float friction =1f;
 
     // Start is called before the first frame update
     void Start()
     {
         rb=GetComponent<Rigidbody>();
+        rb.drag = friction;
+
     }
 
     // Update is called once per frame
@@ -21,6 +24,6 @@ public class AcelerometroManager : MonoBehaviour
     {
         Vector3 tilt = Input.acceleration;
         tilt = Quaternion.Euler(90, 0, 0) * tilt;
-        rb.AddForce(tilt*speed);
+        rb.AddForce(tilt * Speed);
     }
 }
