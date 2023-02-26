@@ -8,7 +8,7 @@ public class AcelerometroManager : MonoBehaviour
 
     private Rigidbody rb;
 
-    private float speed = 10;
+    private float speed = 20;
 
     // Start is called before the first frame update
     void Start()
