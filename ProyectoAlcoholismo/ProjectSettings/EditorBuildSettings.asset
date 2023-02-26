@@ -5,7 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/StartScreen.unity
     guid: 3fc8acdd13e6c734bafef6554d6fdbcd
-  m_configObjects: {}
+  - enabled: 1
+    path: Assets/Minigames/AHuevo/AHuevo.unity
+    guid: 6e01904a2d5b5d94cb66a9c32d9a2260
+  m_configObjects:
+    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 5588e04bc78677641a63ce195831cd6b, type: 2}
+    com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000, guid: 77d8000adae5f554a82b271d918c4463, type: 2}
+    com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: fc660c16bf0fe844193087a700b2d149, type: 2}
