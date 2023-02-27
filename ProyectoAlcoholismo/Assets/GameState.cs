@@ -13,7 +13,8 @@ public class GameState : NetworkBehaviour
     // singleton
     public static GameState instance;
     
-    [Networked] public Dictionary<string, PlayerData> GameplayState;
+    //[Networked]
+    public Dictionary<string, PlayerData> GameplayState;
 
     private void Awake()
     {
