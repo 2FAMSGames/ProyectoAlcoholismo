@@ -14,11 +14,20 @@ public class SlingshotController : MonoBehaviour
     [Tooltip("Position where projectile will be instantiated and collider used for click detection")]
     GameObject projectilePlacer;
 
+    [SerializeField]
+    GameObject arrowPrefab;
+
     SphereCollider projectilePlacerCollider;
 
-    Plane projectionPlane;
-    bool clicked = false;
     GameObject projectile;
+    
+    Plane projectionPlane;
+
+    GameObject arrow;
+    SpriteRenderer arrowSprRend;
+    float arrowAspectRatio;
+
+    bool clicked = false;
     Vector3 mousePos;
 
     // Start is called before the first frame update
@@ -33,10 +42,56 @@ public class SlingshotController : MonoBehaviour
     {
         CheckOnClickEnter();
 
-        CheckOnClic();
+        CheckOnClick();
 
         CheckOnClickExit();
     }
+
+    private void CheckOnClickEnter()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            mousePos = GetClickPositionOnPlane().GetValueOrDefault();
+
+            //Only detects if mouse position is inside placer bounding sphere
+            if (projectilePlacerCollider.bounds.Contains(mousePos))
+            {
+                projectile = Instantiate(projectilePrefab, mousePos, Quaternion.identity, gameObject.transform);
+                arrow = Instantiate(arrowPrefab, projectilePlacer.transform.position, Quaternion.FromToRotation(Vector3.up, transform.forward), gameObject.transform);
+                arrowSprRend = arrow.GetComponent<SpriteRenderer>();
+                arrowAspectRatio = arrowSprRend.size.x / arrowSprRend.size.y;
+                clicked = true;
+            }
+        }
+    }
+
+    private void CheckOnClick()
+    {
+        if (clicked)
+        {
+            mousePos = GetClickPositionOnPlane().GetValueOrDefault();
+            projectile.transform.position = mousePos;
+
+            float angle = getRotationAngle();
+            arrow.transform.localRotation = Quaternion.Euler(90, angle, 0);
+
+            float mousePlaceDistance = Vector3.Distance(mousePos, projectilePlacer.transform.position);
+            float arrowHeight = mousePlaceDistance * 2;
+            arrowSprRend.size = new Vector2(arrowHeight * arrowAspectRatio, arrowHeight);
+        }
+    }
+
+    private void CheckOnClickExit()
+    {
+        if (Input.GetMouseButtonUp(0))
+        {
+            Destroy(projectile);
+            Destroy(arrow);
+            clicked = false;
+        }
+    }
+
+    
 
     private Vector3? GetClickPositionOnPlane()
     {
@@ -51,37 +106,13 @@ public class SlingshotController : MonoBehaviour
         return null;
     }
 
-    private void CheckOnClickEnter()
+    private float getRotationAngle()
     {
-        if (clicked)
-        {
-            mousePos = GetClickPositionOnPlane().GetValueOrDefault();
-            projectile.transform.position = mousePos;
-        }
-    }
+        float angle = Vector3.Angle(new Vector3(0, 0, -1), transform.InverseTransformPoint(mousePos));
+        Vector3 cross = Vector3.Cross(new Vector3(0, 0, -1), transform.InverseTransformPoint(mousePos));
+        if (cross.y < 0) angle = -angle;
 
-    private void CheckOnClickExit()
-    {
-        if (Input.GetMouseButtonUp(0))
-        {
-            Destroy(projectile);
-            clicked = false;
-        }
-    }
-
-    private void CheckOnClic()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            mousePos = GetClickPositionOnPlane().GetValueOrDefault();
-
-            //Only detects if mouse position is inside placer bounding sphere
-            if (projectilePlacerCollider.bounds.Contains(mousePos))
-            {
-                projectile = Instantiate(projectilePrefab, mousePos, Quaternion.identity, gameObject.transform);
-                clicked = true;
-            }
-        }
+        return angle;
     }
 }
 
