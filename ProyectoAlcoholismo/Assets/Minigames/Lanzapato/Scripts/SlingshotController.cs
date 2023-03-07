@@ -6,35 +6,44 @@ public class SlingshotController : MonoBehaviour
 {
     [SerializeField]
     GameObject projectionPlaneObject;
+    Plane projectionPlane;
 
     [SerializeField]
     GameObject projectilePrefab;
+    GameObject projectile;
+    Rigidbody projectileRigidbody;
 
     [SerializeField]
     [Tooltip("Position where projectile will be instantiated and collider used for click detection")]
     GameObject projectilePlacer;
+    SphereCollider projectilePlacerCollider;
 
     [SerializeField]
     GameObject arrowPrefab;
-
-    SphereCollider projectilePlacerCollider;
-
-    GameObject projectile;
-    
-    Plane projectionPlane;
-
     GameObject arrow;
     SpriteRenderer arrowSprRend;
     float arrowAspectRatio;
 
+    [SerializeField]
+    float shotForceMultiplier = 200;
+    [SerializeField]
+    float shotForceOffset = 200;
+
+
     bool clicked = false;
+
     Vector3 mousePos;
+    float shotAngle;
+    float mousePlacerDistance;
+
 
     // Start is called before the first frame update
     void Start()
     {
         projectionPlane = new Plane(projectionPlaneObject.transform.up, projectionPlaneObject.transform.position);
         projectilePlacerCollider = projectilePlacer.GetComponent<SphereCollider>();
+
+        DeleteAndCreateProjectile();
     }
 
     // Update is called once per frame
@@ -56,7 +65,6 @@ public class SlingshotController : MonoBehaviour
             //Only detects if mouse position is inside placer bounding sphere
             if (projectilePlacerCollider.bounds.Contains(mousePos))
             {
-                projectile = Instantiate(projectilePrefab, mousePos, Quaternion.identity, gameObject.transform);
                 arrow = Instantiate(arrowPrefab, projectilePlacer.transform.position, Quaternion.FromToRotation(Vector3.up, transform.forward), gameObject.transform);
                 arrowSprRend = arrow.GetComponent<SpriteRenderer>();
                 arrowAspectRatio = arrowSprRend.size.x / arrowSprRend.size.y;
@@ -70,22 +78,22 @@ public class SlingshotController : MonoBehaviour
         if (clicked)
         {
             mousePos = GetClickPositionOnPlane().GetValueOrDefault();
-            projectile.transform.position = mousePos;
 
-            float angle = getRotationAngle();
-            arrow.transform.localRotation = Quaternion.Euler(90, angle, 0);
+            shotAngle = getRotationAngle();
+            arrow.transform.localRotation = Quaternion.Euler(90, shotAngle, 0);
 
-            float mousePlaceDistance = Vector3.Distance(mousePos, projectilePlacer.transform.position);
-            float arrowHeight = mousePlaceDistance * 2;
+            mousePlacerDistance = Vector3.Distance(mousePos, projectilePlacer.transform.position);
+
+            float arrowHeight = mousePlacerDistance * 2;
             arrowSprRend.size = new Vector2(arrowHeight * arrowAspectRatio, arrowHeight);
         }
     }
 
     private void CheckOnClickExit()
     {
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && clicked)
         {
-            Destroy(projectile);
+            ShotProjectile();
             Destroy(arrow);
             clicked = false;
         }
@@ -113,6 +121,39 @@ public class SlingshotController : MonoBehaviour
         if (cross.y < 0) angle = -angle;
 
         return angle;
+    }
+
+    public void DeleteAndCreateProjectile()
+    {
+        Destroy(projectile);
+        projectile = Instantiate(projectilePrefab, projectilePlacer.transform.position, transform.rotation, gameObject.transform);
+        projectileRigidbody = projectile.GetComponent<Rigidbody>();
+        projectileRigidbody.constraints = RigidbodyConstraints.FreezeAll;
+    }
+
+    private void ShotProjectile()
+    {
+        projectileRigidbody.constraints = RigidbodyConstraints.None;
+
+        float shotForce = (shotForceMultiplier * mousePlacerDistance) + shotForceOffset;
+        Vector3 forceVector = new Vector3(0, 0, shotForce);
+        Quaternion forceDirection = Quaternion.Euler(0, shotAngle, 0);
+
+        projectileRigidbody.AddRelativeForce(forceDirection * forceVector);
+
+        StartCoroutine(ResetProjectileOnFail());
+    }
+
+    private IEnumerator ResetProjectileOnFail()
+    {
+        yield return new WaitForSeconds(5f);
+        DeleteAndCreateProjectile();
+    }
+
+    public IEnumerator ResetProjectileOnHit()
+    {
+        yield return new WaitForSeconds(0.5f);
+        DeleteAndCreateProjectile();
     }
 }
 

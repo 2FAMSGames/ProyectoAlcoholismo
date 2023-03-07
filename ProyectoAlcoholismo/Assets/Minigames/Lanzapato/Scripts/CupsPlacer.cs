@@ -21,11 +21,13 @@ public class CupsPlacer : MonoBehaviour
 
     List<GameObject> listInstatiatedCups;
 
+    [HideInInspector]
+    public bool isInitialized = false;
+
     private void Start()
     {
         listInstatiatedCups = new List<GameObject>();
-        PlaceCups(5);
-        
+        isInitialized = true;
     }
 
     public void PlaceCups (int totalRows)
