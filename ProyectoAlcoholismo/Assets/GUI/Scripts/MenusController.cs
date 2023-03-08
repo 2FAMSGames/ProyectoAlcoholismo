@@ -5,6 +5,8 @@ using Netcode.Transports.PhotonRealtime;
 
 public class MenusController : MonoBehaviour
 {
+    public GameState _state;
+    
     [Header("Menus")]
     [SerializeField]
     private GameObject mainMenu;
@@ -16,16 +18,6 @@ public class MenusController : MonoBehaviour
     private GameObject settingsMenu;
     [SerializeField]
     private GameObject roomMenu;
-
-    [Header("Otros Gameobjects")]
-    [SerializeField]
-    private GameObject networkManager;
-    private PhotonRealtimeTransport photonManager;
-
-    void Start()
-    {
-        photonManager = networkManager.GetComponent<PhotonRealtimeTransport>();
-    }
 
     void OnEnable()
     {
@@ -79,12 +71,12 @@ public class MenusController : MonoBehaviour
 
     public void ChangeNetworkRoomName(string newName)
     {
-        photonManager.RoomName = newName;
+        //photonManager.RoomName = newName;
     }
 
     public void ChangeNetworkPlayerName(string newName)
     {
-        //Todo: Settear donde corresponda el player name para que sea visible por otros jugadores
+        //Todo: Setear donde corresponda el player name para que sea visible por otros jugadores
     }
 
     

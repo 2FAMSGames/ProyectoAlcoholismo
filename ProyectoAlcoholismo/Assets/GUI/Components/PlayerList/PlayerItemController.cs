@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Build.Player;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -12,8 +13,10 @@ public class PlayerItemController
         playerNameLabel = ve.Q<Label>("PlayerName");
     }
 
-    public void SetPlayerData(PlayerData pd)
+    public void SetPlayerData(PlayerBehaviour pd)
     {
-        playerNameLabel.text = pd.playerName;
+        // PlayerBehaviour needs to be Spawned first, next line causes error.
+        //playerNameLabel.text = pd.playerName;
+        playerNameLabel.text = "dummy";
     }
 }

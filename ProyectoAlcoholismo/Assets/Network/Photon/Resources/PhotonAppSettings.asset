@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AppSettings:
     AppIdRealtime: c883c6a9-4054-49fd-8da9-17dc9d8de20e
-    AppIdFusion: 
+    AppIdFusion: 1ceabf79-2667-4ec3-ae0e-3ccf51c7230d
     AppIdChat: 
     AppIdVoice: 
     AppVersion: 
-    UseNameServer: 1
+    UseNameServer: 0
     FixedRegion: eu
     Server: 
     Port: 0
@@ -27,5 +27,5 @@ MonoBehaviour:
     EnableProtocolFallback: 1
     AuthMode: 0
     EnableLobbyStatistics: 0
-    NetworkLogging: 1
+    NetworkLogging: 5
   DisableAutoOpenWizard: 1

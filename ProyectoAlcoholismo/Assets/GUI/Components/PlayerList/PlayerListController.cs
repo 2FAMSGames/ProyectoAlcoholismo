@@ -9,12 +9,12 @@ public class PlayerListController
 
     ListView playerList;
 
-    List<PlayerData> playerDataList;
+    List<PlayerBehaviour> playerDataList;
 
     void PopulatePlayerList()
     {
-        playerDataList = new List<PlayerData>();
-        playerDataList.AddRange(Resources.LoadAll<PlayerData>("SamplePlayers"));
+        playerDataList = new List<PlayerBehaviour>();
+        playerDataList.AddRange(Resources.LoadAll<PlayerBehaviour>("SamplePlayers"));
     }
 
     //Asociates father element that contains a list with item template

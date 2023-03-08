@@ -28,7 +28,6 @@ public class RoomController : MonoBehaviour
         playerList = doc.rootVisualElement.Q<ListView>("PlayerList");
         var playerListController = new PlayerListController();
         playerListController.InitPlayerList(listEntryTemplate, playerList);
-
     }
 
     private void GoBackButtonOnClicked()

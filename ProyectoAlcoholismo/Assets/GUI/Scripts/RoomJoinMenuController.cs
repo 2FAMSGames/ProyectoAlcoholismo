@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -35,25 +36,38 @@ public class RoomJoinMenuController : MonoBehaviour {
 
     private void GoBackButtonOnClicked()
     {
-        Debug.Log("Go back button clicked");
         menusController.GoToMainMenu();
     }
 
     private void JoinRoomButtonOnClicked()
     {
-        Debug.Log("Join room button clicked");
+        if (string.IsNullOrEmpty(playerNameField.text))
+        {
+            playerNameField.labelElement.style.color = Color.red;
+            return;
+        }
+        playerNameField.labelElement.style.color = Color.black;
+        
+        if (string.IsNullOrEmpty(roomNameField.text))
+        {
+            roomNameField.labelElement.style.color = Color.red;
+            return;
+        }
+        roomNameField.labelElement.style.color = Color.black;
+
+        GameState.Instance.JoinRoom(roomNameField.text);
+        
+        // TODO
         menusController.GoToRoomMenu();
     }
 
     private void OnEnterRoomName(ChangeEvent<string> changeEvent)
     {
-        Debug.Log("Room: Key pressed");
         menusController.ChangeNetworkRoomName(changeEvent.newValue);
     }
 
     private void OnEnterPlayerName(ChangeEvent<string> changeEvent)
     {
-        Debug.Log("Player: Key pressed");
         menusController.ChangeNetworkPlayerName(changeEvent.newValue);
     }
 }
