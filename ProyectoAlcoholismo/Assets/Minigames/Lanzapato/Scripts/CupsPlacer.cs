@@ -75,13 +75,29 @@ public class CupsPlacer : MonoBehaviour
         }
     }
 
+    public void DestroyCups()
+    {
+        foreach(GameObject cup in listInstatiatedCups)
+        {
+            Destroy(cup);
+        }
+    }
+
     void InstantiateCup(Vector3 pos)
     {
         GameObject cupInstantiated = Instantiate(cupPrefab, pos, Quaternion.identity, gameObject.transform);
-        /*cupInstantiated.name = "Cup " + i + "-" + j;*/
         listInstatiatedCups.Add(cupInstantiated);
     }
 
+    public void SetTableLength(float length)
+    {
+        Vector3 tableScale = table.transform.localScale;
+        tableScale.z = length;
+        table.transform.localScale = tableScale;
+    }
+
+
+    //TODO: Move to utils after merge with origin/feature/networking
     Bounds GetMaxBounds(GameObject g)
     {
         var b = new Bounds(g.transform.position, Vector3.zero);

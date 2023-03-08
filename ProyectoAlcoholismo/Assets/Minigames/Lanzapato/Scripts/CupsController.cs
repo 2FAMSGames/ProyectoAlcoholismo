@@ -2,26 +2,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class CupsController : MonoBehaviour
 {
     CupsPlacer cupsPlacer;
-    SlingshotController slingshotController;
+    GameManagerController gameManager;
 
     // Start is called before the first frame update
-    IEnumerator Start()
+    void Start()
     {
         cupsPlacer = GetComponent<CupsPlacer>();
-        yield return new WaitUntil(() => cupsPlacer.isInitialized);
-        cupsPlacer.PlaceCups(5);
 
-        //Rework this  ---> haciendo referencia a un GameController superior
-        slingshotController = GameObject.Find("Slingshot").GetComponent<SlingshotController>();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManagerController>();
+    }
+
+    public void SetupEnviroment(int nRowsCups, float tableLength)
+    {
+        StartCoroutine(SetupEnviromentCoroutine(nRowsCups, tableLength));   
+    }
+
+    IEnumerator SetupEnviromentCoroutine(int nRowsCups, float tableLength)
+    {
+        yield return new WaitUntil(() => cupsPlacer.isInitialized);
+        cupsPlacer.SetTableLength(tableLength);
+        cupsPlacer.PlaceCups(nRowsCups);
+    }
+
+    public void ResetEnviroment()
+    {
+        cupsPlacer.DestroyCups();
     }
 
     public void OnCupEntered()
     {
-        //Rework this  ---> haciendo referencia a un GameController superior
-        StartCoroutine(slingshotController.ResetProjectileOnHit());
-        
+        gameManager.OnCupEntered();
     }
 }

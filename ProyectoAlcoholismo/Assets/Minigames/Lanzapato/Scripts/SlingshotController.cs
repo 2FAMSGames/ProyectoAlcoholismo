@@ -43,7 +43,7 @@ public class SlingshotController : MonoBehaviour
         projectionPlane = new Plane(projectionPlaneObject.transform.up, projectionPlaneObject.transform.position);
         projectilePlacerCollider = projectilePlacer.GetComponent<SphereCollider>();
 
-        DeleteAndCreateProjectile();
+        //DeleteAndCreateProjectile();
     }
 
     // Update is called once per frame
@@ -79,7 +79,7 @@ public class SlingshotController : MonoBehaviour
         {
             mousePos = GetClickPositionOnPlane().GetValueOrDefault();
 
-            shotAngle = getRotationAngle();
+            shotAngle = GetRotationAngle();
             arrow.transform.localRotation = Quaternion.Euler(90, shotAngle, 0);
 
             mousePlacerDistance = Vector3.Distance(mousePos, projectilePlacer.transform.position);
@@ -114,7 +114,7 @@ public class SlingshotController : MonoBehaviour
         return null;
     }
 
-    private float getRotationAngle()
+    private float GetRotationAngle()
     {
         float angle = Vector3.Angle(new Vector3(0, 0, -1), transform.InverseTransformPoint(mousePos));
         Vector3 cross = Vector3.Cross(new Vector3(0, 0, -1), transform.InverseTransformPoint(mousePos));
@@ -129,6 +129,7 @@ public class SlingshotController : MonoBehaviour
         projectile = Instantiate(projectilePrefab, projectilePlacer.transform.position, transform.rotation, gameObject.transform);
         projectileRigidbody = projectile.GetComponent<Rigidbody>();
         projectileRigidbody.constraints = RigidbodyConstraints.FreezeAll;
+        projectile.GetComponent<ProjectileController>().slingshotController = this;
     }
 
     private void ShotProjectile()
@@ -144,6 +145,8 @@ public class SlingshotController : MonoBehaviour
         StartCoroutine(ResetProjectileOnFail());
     }
 
+    //Wait times serializable?
+    //TODO: Make one public funtion --->  IEnumerator WaitAndResetProjectile(time)
     private IEnumerator ResetProjectileOnFail()
     {
         yield return new WaitForSeconds(5f);
@@ -155,6 +158,13 @@ public class SlingshotController : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         DeleteAndCreateProjectile();
     }
+
+    public IEnumerator ResetProjectileOnFloor()
+    {
+        yield return new WaitForSeconds(2f);
+        DeleteAndCreateProjectile();
+    }
+
 }
 
 
