@@ -724,6 +724,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af743bf7b1ead90418d9146342416660, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreToPassLevel: 3
+  gameLevelList:
+  - {fileID: 11400000, guid: ff7f0bdb49c8786478fadba2bcbe100b, type: 2}
+  - {fileID: 11400000, guid: 8c10271226d630b47994538ee16eeff3, type: 2}
+  - {fileID: 11400000, guid: de55530e10b72db46b3a430ec8992266, type: 2}
   slingshot: {fileID: 1282721397}
   cupsContainer: {fileID: 1296809922}
 --- !u!1001 &1817917756

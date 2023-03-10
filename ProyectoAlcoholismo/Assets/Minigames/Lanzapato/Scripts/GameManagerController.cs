@@ -5,6 +5,11 @@ using UnityEngine;
 public class GameManagerController : MonoBehaviour
 {
     [SerializeField]
+    int scoreToPassLevel = 3;
+    [SerializeField]
+    List<Lanzapato_LevelSettings> gameLevelList;
+    
+    [SerializeField]
     GameObject slingshot;
     SlingshotController slingshotController;
 
@@ -13,31 +18,50 @@ public class GameManagerController : MonoBehaviour
     CupsController cupsController;
 
     int score = 0;
+    int currentLevel = 0;
+    int nTotalLevels;
 
     // Start is called before the first frame update
     void Start()
     {
         slingshotController = slingshot.GetComponent<SlingshotController>();
         cupsController = cupsContainer.GetComponent<CupsController>();
-        SetupLevel();
+        nTotalLevels = gameLevelList.Count;
+        SetupLevel(currentLevel);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(score >= scoreToPassLevel)
+        {
+            DestroyLevel();
+            currentLevel++;
+            if(currentLevel < nTotalLevels)
+            {
+                SetupLevel(currentLevel);
+            }
+            else
+            {
+                Debug.Log("Ganaste");
+            }
+            
+        }
     }
 
-    void SetupLevel()
+    void SetupLevel(int levelIndex)
     {
+        Lanzapato_LevelSettings levelToLoad = gameLevelList[levelIndex];
+
         score = 0;
-        cupsController.SetupEnviroment(5, 1); //Valores placeholder
+        cupsController.SetupEnviroment(levelToLoad.cupRows, levelToLoad.tableLength); //Valores placeholder
         //Establece parametros de fuerza
         slingshotController.DeleteAndCreateProjectile();
     }
 
     void DestroyLevel()
     {
+        score = 0;
         //Borra/reinicia proyectil lanzado
         cupsController.ResetEnviroment();
     }

@@ -42,8 +42,6 @@ public class SlingshotController : MonoBehaviour
     {
         projectionPlane = new Plane(projectionPlaneObject.transform.up, projectionPlaneObject.transform.position);
         projectilePlacerCollider = projectilePlacer.GetComponent<SphereCollider>();
-
-        //DeleteAndCreateProjectile();
     }
 
     // Update is called once per frame
